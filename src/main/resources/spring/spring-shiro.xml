@@ -1,0 +1,105 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+       <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+       <!--xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">-->
+    <!--&lt;!&ndash;&lt;!&ndash; 啟用 shrio 授權註解攔截方式 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 裝配 securityManager &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="securityManager" ref="securityManager"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 登陸頁面 URL &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="loginUrl" value="/login.html"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 登陸成功後頁面 URL &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="successUrl" value="/index.html"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 無權限頁面 URL &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="unauthorizedUrl" value="/error.html"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 具體配置需要攔截哪些 URL, 以及訪問對應的 URL 時使用 Shiro 的什麼 Filter 進行攔截 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="filterChainDefinitions">&ndash;&gt;-->
+    <!--&lt;!&ndash;<value>&ndash;&gt;-->
+    <!--&lt;!&ndash;/index.html = roles[user]&ndash;&gt;-->
+    <!--&lt;!&ndash;/logout = logout&ndash;&gt;-->
+    <!--&lt;!&ndash;</value>&ndash;&gt;-->
+    <!--&lt;!&ndash;</property>&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;&lt;!&ndash; 配置 Shiro 的 SecurityManager Bean &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="cacheManager" ref="cacheManager"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="realm" ref="myRealm"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="sessionMode" value="native">&ndash;&gt;-->
+    <!--&lt;!&ndash;</property>&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;&lt;!&ndash; 配置緩存管理器 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 指定 ehcache 的配置文件 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;&lt;!&ndash; 配置進行授權和認證的 Realm &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="myRealm" class="com.csaarg.base.shiro.ShiroDbRealm">&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="userService" ref="userService"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="userService" class="com.csaarg.sharedvip.service.impl.UserServiceImpl"/>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;&lt;!&ndash; 配置 Bean 後置處理器: 會自動的調用和 Spring 整合後各個組件的生命週期方法. &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>&ndash;&gt;-->
+
+
+    <!--&lt;!&ndash; 配置權限管理器 &ndash;&gt;-->
+    <!--<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">-->
+        <!--&lt;!&ndash; ref 對應我們寫的 realm  MyShiro &ndash;&gt;-->
+        <!--<property name="realm" ref="myShiroRealm"/>-->
+        <!--<property name="cacheManager" ref="cacheManager"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 自定義 Realm &ndash;&gt;-->
+    <!--<bean id="myShiroRealm" class="com.csaarg.base.shiro.MyShiroRealm"/>-->
+    <!--&lt;!&ndash; 緩存管理器 &ndash;&gt;-->
+    <!--<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>-->
+
+    <!--&lt;!&ndash; URL 驗證 &ndash;&gt;-->
+    <!--&lt;!&ndash; 配置 shiro 的過濾器工廠類，id-shiroFilter 要和我們在 web.xml 中配置的過濾器一致 &ndash;&gt;-->
+    <!--<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">-->
+        <!--<property name="securityManager" ref="securityManager"/>-->
+        <!--&lt;!&ndash; 登錄頁面，訪問沒有權限的請求時會自動跳轉到這個鏈接，默認為 login.jsp &ndash;&gt;-->
+        <!--<property name="loginUrl" value="/login.html"/>-->
+        <!--&lt;!&ndash; 登錄成功 &ndash;&gt;-->
+        <!--<property name="successUrl" value="/index.html"/>-->
+        <!--&lt;!&ndash; 未授權 &ndash;&gt;-->
+        <!--<property name="unauthorizedUrl" value="/403.html"/>-->
+        <!--&lt;!&ndash; 權限配置 &ndash;&gt;-->
+        <!--<property name="filterChainDefinitions">-->
+            <!--<value>-->
+                <!--/images/**=anon-->
+                <!--/js/**=anon-->
+                <!--/lib/**=anon-->
+
+                <!--/register.html=anon-->
+                <!--/user/register=anon-->
+                <!--/login.html=anon-->
+                <!--/user/login=anon-->
+                <!--/user/sendVerifyMail=anon-->
+                <!--/user/verifyMail=anon-->
+                <!--/user/isLogin=anon-->
+
+                <!--/**=authc-->
+            <!--</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 保证实现了 Shiro 内部 lifecycle 函数的 bean 执行 &ndash;&gt;-->
+    <!--<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>-->
+
+    <!--&lt;!&ndash; 使用註解 ↓ &ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 開啟 shiro 的註解支持 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"&ndash;&gt;-->
+    <!--&lt;!&ndash;depends-on="lifecycleBeanPostProcessor">&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 必須改為true，即使用 cglib 方式為 Action 創建代理對象。默認值為 false，使用 JDK 創建代理對象，會造成問題 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="proxyTargetClass" value="true"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash; 使用 shiro 框架提供的切面類，用於創建代理對象 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="securityManager" ref="securityManager"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+<!--</beans>-->

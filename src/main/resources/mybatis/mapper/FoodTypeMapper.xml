@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtapc.ordering.mapper.FoodTypeMapper">
+
+    <sql id="baseColumn">
+        ft.id,
+        ft.name,
+        ft.icon_url iconUrl,
+        ft.created_time createdTime,
+        ft.updated_time updatedTime,
+        ft.deleted,
+        ft.remark
+    </sql>
+
+    <!--查询没有被删除的数据-->
+    <select id="select" resultType="cn.gtapc.ordering.entity.FoodType">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM food_type ft
+        WHERE ft.deleted = 0
+    </select>
+
+</mapper>

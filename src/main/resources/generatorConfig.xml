@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!-- mybatis 生成工具的帮助文档：-->
+    <!-- 英文：http://www.mybatis.org/generator/usage/mysql.html -->
+    <!-- 中文：http://www.mybatis.tk/ -->
+    <!-- 中文：http://mbg.cndocs.tk/ -->
+
+    <!-- 本地驱动 jar -->
+    <classPathEntry
+            location="E:\DuanLuan\Workspaces\IdeaProjects\.config_win\jdbc-drivers\mysql-connector-java-3.1.14-bin.jar"/>
+
+    <context id="test" targetRuntime="MyBatis3">
+        <!-- 生成实体类的时候要生成的方法 -->
+        <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>-->
+        <!--<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>-->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+        <commentGenerator>
+            <!-- 這個元素用來去除指定生成的註釋中是否包含生成的日期 false:表示保護 -->
+            <!-- 如果生成日期，會造成即使修改一個字段，整個實體類所有屬性都會發生變化，不利於版本控制，所以設置為true -->
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自動生成的註釋 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--數據庫鏈接URL，用戶名、密碼 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://121.196.212.205:3306/bilibilirss" userId="bilibilirss"
+                        password="159357"/>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置 -->
+        <!--<javaModelGenerator targetPackage="cn.gtapc.ordering.entity"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>-->
+        <!-- 生成 Mapper 映射文件的位置 -->
+        <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+        <!-- 生成 Mapper 的位置 -->
+        <!--<javaClientGenerator type="XMLMAPPER"
+                             targetPackage="cn.gtapc.ordering.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>-->
+        <!-- 要生成哪些表 -->
+        <!-- 用百分号表示生成所有表, 可以直接省去一个一个写 <table tableName="%" /> -->
+        <table tableName="%" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+    </context>
+
+</generatorConfiguration>

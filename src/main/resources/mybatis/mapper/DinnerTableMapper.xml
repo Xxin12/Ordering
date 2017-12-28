@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtapc.ordering.mapper.DinnerTableMapper">
+
+    <sql id="baseColumn">
+        dt.id,
+        dt.status,
+        dt.created_time createdTime,
+        dt.updated_time updatedTime,
+        dt.deleted,
+        dt.remark
+    </sql>
+
+    <!--查询没有被删除的数据-->
+    <select id="select" resultType="cn.gtapc.ordering.entity.DinnerTable">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM dinner_table dt
+        WHERE dt.deleted = 0
+    </select>
+
+</mapper>

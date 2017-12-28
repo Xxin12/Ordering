@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 自動掃瞄該包，使 SpringMVC 認為包下用了 @controller 註解的類是控制器 -->
+    <context:component-scan base-package="cn.gtapc.ordering.controller"/>
+
+    <!-- 配置註解驅動 -->
+    <mvc:annotation-driven>
+        <!-- 消息轉換器 -->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <!-- 解決 @ResponseBody 返回中文亂碼 -->
+                <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 靜態資源 -->
+    <mvc:resources location="/static/manage/" mapping="/manage/**"/>
+    <mvc:resources location="/static/" mapping="/**"/>
+
+    <!-- 攔截器 -->
+    <mvc:interceptors>
+        <!-- 訪問頁面時 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.html"/>
+            <bean class="cn.gtapc.ordering.filter.ViewInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!--&lt;!&ndash; 第一步：創建自定義日期轉換規則 &ndash;&gt;-->
+    <!--<bean id="dateConverter" class="cn.gtapc.base.springmvc.convert.DateConverter"/>-->
+    <!--&lt;!&ndash; 第二步：創建convertion-Service，並注入dateConvert&ndash;&gt;-->
+    <!--<bean id="dateConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
+    <!--<property name="converters">-->
+    <!--<set>-->
+    <!--<ref bean="dateConverter"/>-->
+    <!--</set>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 第三步：註冊處理器映射器/處理器適配器，添加conversion-service屬性&ndash;&gt;-->
+    <!--<mvc:annotation-driven conversion-service="dateConversionService"/>-->
+
+    <!-- 启用 Spring MVC 注解-->
+    <mvc:annotation-driven>
+        <!-- 处理 ResponseBody 日期类型 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+</beans>

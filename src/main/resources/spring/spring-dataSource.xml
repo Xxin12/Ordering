@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 引入 JDBC 配置文件 -->
+    <context:property-placeholder location="classpath:properties/jdbc.properties" ignore-unresolvable="true"/>
+
+    <!-- 配置數據源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <!-- 驅動類 -->
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <!-- 連接地址 -->
+        <property name="url" value="${jdbc.url}"/>
+        <!-- 用戶名 -->
+        <property name="username" value="${jdbc.username}"/>
+        <!-- 密碼 -->
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- 連接初始值，連接池啟動時創建的連接數量的初始值，默認值为 0 -->
+        <property name="initialSize" value="${pool.dbcp2.initialSize}"/>
+        <!-- 最小空閒值，當空閒的連接數少於閥值時，連接池就會去預申請一些連接，以免洪峰來時來不及申請，默認值为 0 -->
+        <property name="minIdle" value="${pool.dbcp2.minIdle}"/>
+        <!-- 最大空閒值，當經過一個高峰時間後，連接池可以慢慢將已經用不到的連接慢慢釋放一部分，一直減少到 maxIdle 為止 ，0 時無限制，默認值为 8 -->
+        <property name="maxIdle" value="${pool.dbcp2.maxIdle}"/>
+        <!-- 連接池的最大值，同一時間可以從池分配的最多連接數量，0 時無限制，默認值为 8 -->
+        <property name="maxTotal" value="${pool.dbcp2.maxTotal}"/>
+        <!--是否自动提交事务，即单条 SQL 语句算是一个事务-->
+        <property name="defaultAutoCommit" value="${pool.dbcp2.defaultAutoCommit}"/>
+    </bean>
+
+</beans>

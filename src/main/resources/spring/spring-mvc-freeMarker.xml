@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="freeMarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!-- 模板路徑  /../WEB-INF    classpath:/freeMarker/ -->
+        <property name="templateLoaderPath" value="/freeMarker"/>
+        <!-- 配置文件 -->
+        <property name="freemarkerSettings" ref="freemarkerSettings"/>
+        <!-- 自定義指令 -->
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="xml_escape" value-ref="fmXmlEscape"/>
+                <entry key="baseURL" value="${request.getContextPath()}"/>
+                <!--<entry key="JS_URL" value="http://localhost:8299/Store/content/js/"/>-->
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置文件 -->
+    <bean id="freemarkerSettings" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:properties/freemarker.properties"/>
+    </bean>
+    <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
+
+    <!-- FreeMarker 視圖解析器 -->
+    <bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <!--<property name="viewNames" value="*.ftl"/>-->
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="contentType" value="text/html; charset=utf-8"/>
+        <!-- 線上設置為 true -->
+        <property name="cache" value="false"/>
+        <property name="suffix" value=""/>
+        <!-- 是否所有的 request 属性在与模板进行合并之前添加到 model 中 -->
+        <property name="exposeRequestAttributes" value="true"/>
+        <!-- 是否所有的 session 属性在与模板进行合并之前添加到 model 中 -->
+        <property name="exposeSessionAttributes" value="true"/>
+        <!-- 是否通过 Spring 的宏库暴露一个 RequestContext（名为 springBindRequestContext）供外部使用 -->
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <!-- 把 Spring 的 RequestContext 对象暴露为变量 -->
+        <property name="requestContextAttribute" value="request"/>
+        <!--<property name="order" value="0"/>-->
+    </bean>
+
+    <!--&lt;!&ndash; 國際化視圖解析器 &ndash;&gt;-->
+    <!--<bean id="viewResolver"-->
+    <!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+    <!--&lt;!&ndash;<property name="viewNames" value="*.html"/>&ndash;&gt;-->
+    <!--<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>-->
+    <!--<property name="prefix" value=""/>-->
+    <!--<property name="suffix" value=""/>-->
+    <!--<property name="order" value="1"></property>-->
+    <!--</bean>-->
+
+</beans>

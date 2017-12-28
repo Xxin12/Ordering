@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtapc.ordering.mapper.TemporaryOrderMapper">
+
+    <sql id="baseColumn">
+        _to.id,
+        _to.order_id orderId,
+        _to.food_id foodId,
+        _to.number,
+        _to.total_price totalPrice,
+        _to.finished,
+        _to.finished_time finishedTime,
+        _to.created_time createdTime,
+        _to.updated_time updatedTime,
+        _to.deleted,
+        _to.remark
+    </sql>
+
+
+    <!--查询没有被删除的数据-->
+    <select id="selectVO" resultType="cn.gtapc.ordering.entity.vo.TemporaryOrderVO">
+        SELECT
+        <include refid="baseColumn"/>,
+        f.NAME foodName
+        FROM
+        temporary_order _to,
+        food f
+        WHERE
+        f.id = _to.food_id
+        AND _to.deleted = 0
+        AND f.deleted = 0
+        AND _to.finished = #{temporaryOrderFinished}
+        ORDER BY
+        _to.created_time DESC,
+        _to.updated_time DESC
+    </select>
+
+    <!--查询没有被删除的数据-->
+    <select id="selectByDinnerTableId" resultType="cn.gtapc.ordering.entity.TemporaryOrder">
+        SELECT
+            <include refid="baseColumn"/>
+        FROM
+            temporary_order _to
+        WHERE
+            _to.finished = 0
+        /*SQL语句 查询指定餐桌未结算的已点食品*/
+            AND INSTR( ( SELECT o.temporary_order_ids FROM _order o WHERE o.dinner_table_id = #{dinnerTableId} ), _to.id ) > 0
+    </select>
+
+</mapper>
